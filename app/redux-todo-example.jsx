@@ -30,7 +30,15 @@ var reducer = (state = stateDefault, action ) => {
   }
 }
 
-var store = redux.createStore(reducer);
+var store = redux.createStore(reducer, redux.compose(
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+));
+
+store.subscribe(() => {
+  var state = store.getState();
+
+  document.getElementById('app').innerHTML = state.searchText;
+});
 
 var currentState = store.getState();
 
@@ -46,4 +54,14 @@ store.dispatch({
   searchText: 'rad'
 });
 
-console.log('Name should be Andrew', store.getState())
+
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'work'
+});
+
+
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'play'
+});
