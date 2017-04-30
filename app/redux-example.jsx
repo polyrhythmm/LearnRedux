@@ -2,14 +2,8 @@ var redux = require('redux');
 
 console.log('starting redux exmaple');
 
-var stateDefault = {
-  name: 'John',
-  hobbies: [],
-  movies: []
-};
-
-var nextHobbyId = 1;
-var nextMovieId = 1;
+//Name reducer and action generators
+//-----------------------------
 
 var nameReducer = (state = "Anonymous", action) => {
   switch(action.type) {
@@ -20,6 +14,30 @@ var nameReducer = (state = "Anonymous", action) => {
   }
 }
 
+var changeName = (name) => {
+  return {
+    type:"CHANGE_NAME",
+    name: name
+  }
+}
+
+//Hobby reducer and action generators
+//---------------------------------
+var addHobby = (hobby) => {
+  return {
+    type: "ADD_HOBBY",
+    hobby: hobby
+  }
+}
+
+var removeHobby = (id) => {
+  return {
+    type: "REMOVE_HOBBY",
+    id: id
+  }
+}
+
+var nextHobbyId = 1;
 var hobbiesReducer = (state = [], action) => {
   switch(action.type) {
     case "ADD_HOBBY":
@@ -38,6 +56,25 @@ var hobbiesReducer = (state = [], action) => {
   }
 }
 
+//Movie reducer and action generators
+//---------------------------------
+
+var addMovie = (title, genre) => {
+  return {
+    type: "ADD_MOVIE",
+    title: title,
+    genre: genre
+  }
+}
+
+var removeMovie = (id) => {
+  return {
+    type: "REMOVE_MOVIE",
+    id: id
+  }
+}
+
+var nextMovieId = 1;
 var moviesReducer = (state = [], action) => {
   switch(action.type) {
     case "ADD_MOVIE" :
@@ -83,40 +120,15 @@ var currentState = store.getState();
 console.log(currentState);
 
 
-store.dispatch({
-  type: 'CHANGE_NAME',
-  name: 'Andrew'
-});
+store.dispatch(changeName("Andrew"));
 
-store.dispatch({
-  type: 'ADD_HOBBY',
-  hobby: 'Running'
-})
+store.dispatch(addHobby("Running"));
 
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'Terminator',
-  genre: 'Action'
-});
+store.dispatch(addMovie("Terminator", "Action"));
+store.dispatch(addMovie("The Cube", "Suspense"));
+store.dispatch(addMovie("The Teenage Mutant Ninja Turtles", "Action"));
 
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'The Cube',
-  genre: 'Suspense'
-});
 
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'Teenage Mutant Ninja Turtles',
-  genre: 'Action'
-});
+store.dispatch(removeHobby(1));
 
-store.dispatch({
-  type: 'REMOVE_HOBBY',
-  id: 1
-})
-
-store.dispatch({
-  type: 'REMOVE_MOVIE',
-  id: 1
-})
+store.dispatch(removeMovie(1));
